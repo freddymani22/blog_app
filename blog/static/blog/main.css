@@ -1,12 +1,14 @@
 body {
     background: #fafafa;
-    color: hwb(0 0% 61%);
+    color: hwb(0 9% 56%);
     margin-top: 5rem;
   }
   
   h1, h2, h3, h4, h5, h6 {
     color: #444444;
   }
+  
+
   
   ul {
     margin: 0;
@@ -91,10 +93,6 @@ body {
 
 
   @font-face {
-    font-family: 'Cedarville Cursive', cursive;
-    src: url("https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap");
+    font-family: 'Dancing Script', cursive;
+    src: url("https://fonts.googleapis.com/css2?family=Dancing+Script&family=Tilt+Prism&display=swap");
 }
-
-
-
-

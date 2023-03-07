@@ -35,8 +35,8 @@
     <div class="article-metadata">
       <div>
         {% for comment in comments %}
-        <p class="article-content">{{ comment.comment_text }}</p>
-        <a href="{% url 'user-posts' comment.user %}"><p>by {{ comment.user }}</p></a>
+        <p class="article-content"> <a href="{% url 'user-posts' comment.user %}">{{ comment.user }}</a> {{ comment.comment_text }}</p>
+       
         <hr>
        {% endfor %}
       </div>
@@ -48,7 +48,7 @@
 
   <form method = "POST">
       {% csrf_token %}
-      <fieldset class = "form-group">
+      <fieldset class = "form-group comment">
           {{ form|crispy }}
 
       </fieldset>

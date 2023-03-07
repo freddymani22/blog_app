@@ -54,8 +54,11 @@ class PostDetailView(LoginRequiredMixin,DetailView):
 
 
     def get(self, request, *args, **kwargs):
+        context ={}
         self.object = self.get_object()
+        # print(self.object.title)
         context = self.get_context_data(object=self.object)
+        print(context['object'])
         context['form'] = self.form()
         context['comments'] = Comment.objects.filter(post=self.object)
         return self.render_to_response(context)
