@@ -38,7 +38,6 @@ class UserPostListView(LoginRequiredMixin,ListView):
     context_object_name = 'posts'
     paginate_by = 5
 
-
     def get_queryset(self):
         user = get_object_or_404(User, username = self.kwargs.get('username'))
         return Post.objects.filter(author = user).order_by('-date_posted')
@@ -59,27 +58,20 @@ class PostDetailView(LoginRequiredMixin,DetailView):
         # print(self.object.title)
         context = self.get_context_data(object=self.object)
         print(context['object'])
-        context['form'] = self.form()
+        context['form'] = CommentForm()
         context['comments'] = Comment.objects.filter(post=self.object)
         return self.render_to_response(context)
+    
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         self.object = self.get_object()
-        form = self.form(request.POST)
+        form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = self.object
             comment.user = request.user
             comment.save()
             return redirect('post-detail', pk = self.object.pk)
-        else:
-            context = self.get_context_data(object=self.object)
-            context['form'] = form
-            context['comments'] = Comment.objects.filter(post=self.object)
-            return self.render_to_response(context)
-
-
-
 
 
 
@@ -93,7 +85,8 @@ class PostCreateView(LoginRequiredMixin,CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.instance.image = self.request.FILES.get('image')
-        return super().form_valid(form)
+        form.save()
+        return redirect('blog-home')
 
 
 class PostUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
