@@ -40,6 +40,7 @@ class UserPostListView(LoginRequiredMixin,ListView):
 
     def get_queryset(self):
         user = get_object_or_404(User, username = self.kwargs.get('username'))
+        return user.post_set.all().order_by('-date_posted')
         return Post.objects.filter(author = user).order_by('-date_posted')
         
 
@@ -49,30 +50,32 @@ class UserPostListView(LoginRequiredMixin,ListView):
 class PostDetailView(LoginRequiredMixin,DetailView):
     model = Post
     form = CommentForm
+    slug_field = 'slugs'
+    slug_url_kwarg = 'slugs'
 
 
 
     def get(self, request, *args, **kwargs):
         context ={}
         self.object = self.get_object()
-        # print(self.object.title)
         context = self.get_context_data(object=self.object)
-        print(context['object'])
         context['form'] = CommentForm()
         context['comments'] = Comment.objects.filter(post=self.object)
         return self.render_to_response(context)
     
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         form = CommentForm(request.POST)
+        
         if form.is_valid():
+            print(self.object.pk)
             comment = form.save(commit=False)
             comment.post = self.object
             comment.user = request.user
             comment.save()
-            return redirect('post-detail', pk = self.object.pk)
-
+            # return redirect('post-detail', slugs= self.object.slugs)
+            return redirect(self.object.get_absolute_url())
 
 
 
@@ -105,6 +108,7 @@ class PostUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
+    
 
     def test_func(self):
         post = self.get_object()

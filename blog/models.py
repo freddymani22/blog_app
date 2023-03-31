@@ -1,11 +1,17 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.urls import reverse
+from django.utils.text import slugify
+from django.db.models.signals import pre_save,post_save
+from django.conf import settings
+
+User = settings.AUTH_USER_MODEL
 
 class Post(models.Model):
     title = models.CharField(max_length = 100)
     content = models.TextField()
+    slugs = models.SlugField(blank=True, null =True, unique=True)
     date_posted = models.DateTimeField(default = timezone.now)
     author = models.ForeignKey(User, on_delete = models.CASCADE)
     image = models.ImageField(upload_to='post_images/', null=True, blank=True)
@@ -17,7 +23,10 @@ class Post(models.Model):
 
 
     def get_absolute_url(self):
-        return reverse('post-detail', kwargs = {'pk': self.pk})
+        return reverse('post-detail', kwargs = {'slugs': self.slugs})
+    
+
+   
 
 
 class Comment(models.Model):
@@ -27,3 +36,22 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.comment_text
+    
+
+
+def pre_save_slugs(instance,*args, **kwargs):
+    if instance.slugs is None:
+        slug = slugify(instance.title)
+        instance.slugs = f'{slug}-{instance.id}'
+
+pre_save.connect(pre_save_slugs, sender=Post)
+
+
+
+def post_save_slugs(instance, created, *args, **kwargs):
+    if created:
+            slug = slugify(instance.title)
+            instance.slugs = f'{slug}-{instance.id}'
+            instance.save()
+
+post_save.connect(post_save_slugs, sender=Post)
