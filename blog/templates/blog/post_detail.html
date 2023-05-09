@@ -1,6 +1,6 @@
 {% extends "blog/base.html" %}
 {% load crispy_forms_tags %}
-
+{% load static %}
 {% block content %}
     <article class="media content-section">
       <img class = "rounded-circle article-img" src="{{ object.author.profile.image.url }}" alt="">
@@ -15,7 +15,9 @@
             </div>
             {% endif %}
           </div>
-          <h2 class="article-title">{{ object.title }}</h2>
+          <h2 class="article-title">{{ object.title }}</h2>   
+          {% if object.img_post %}      
+          <img class="img-rounded" src="{{ object.img_post.url }}" alt="{{ post.title }}">{% endif %}
           <p class="article-content">{{ object.content }}</p>
         </div>
       </article>
@@ -28,7 +30,7 @@
     </div>
   {% endfor %}
 </div> -->
-<h1>Comments</h1>
+<!-- <h2>Comments</h2> -->
 {% if comments %}
 <article class="media content-section">
   <!-- <div class="media-body"> -->
@@ -40,6 +42,8 @@
         <hr>
        {% endfor %}
       </div>
+    
+
     
 
 {% endif %}
@@ -59,6 +63,8 @@
   </form>
 </div>
 </article>
+
+<script src = '{% static "js/detail.js" %}'></script>
 {% endblock content %}
 
 

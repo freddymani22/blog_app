@@ -41,7 +41,7 @@ class UserPostListView(LoginRequiredMixin,ListView):
     def get_queryset(self):
         user = get_object_or_404(User, username = self.kwargs.get('username'))
         return user.post_set.all().order_by('-date_posted')
-        return Post.objects.filter(author = user).order_by('-date_posted')
+        # return Post.objects.filter(author = user).order_by('-date_posted')
         
 
         
@@ -69,7 +69,6 @@ class PostDetailView(LoginRequiredMixin,DetailView):
         form = CommentForm(request.POST)
         
         if form.is_valid():
-            print(self.object.pk)
             comment = form.save(commit=False)
             comment.post = self.object
             comment.user = request.user
@@ -83,18 +82,16 @@ class PostDetailView(LoginRequiredMixin,DetailView):
     
 class PostCreateView(LoginRequiredMixin,CreateView):
     model = Post
-    fields = ['title', 'content', 'image']
+    fields = ['title', 'content', 'img_post']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        form.instance.image = self.request.FILES.get('image')
-        form.save()
-        return redirect('blog-home')
+        return super().form_valid(form)
 
 
 class PostUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'image']
   
     def form_valid(self, form):
         form.instance.author = self.request.user

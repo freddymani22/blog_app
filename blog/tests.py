@@ -25,6 +25,8 @@ class PostTestCase(TestCase):
             title='hello-earth', content='good night', author=self.user_a)
         self.comment_a = Comment.objects.create(
             post=self.post_a, user=self.user_a, comment_text='nice post')
+        self.comment_a = Comment.objects.create(
+            post=self.post_b, user=self.user_a, comment_text='nice post')
 
     def test_post(self):
         self.assertEquals(self.post_a.title, 'hello-world')
@@ -48,3 +50,10 @@ class PostTestCase(TestCase):
     def test_post_comment_reverse_counts(self):
         qs = Comment.objects.filter(post = self.post_a)
         self.assertEquals(qs.count(), 1)
+
+
+    def test_comment_user_reverse(self):
+        user = self.user_a
+        qs = Comment.objects.filter(post__author = user)
+        print(qs)
+        self.assertEqual(qs.count(),2)
