@@ -1,11 +1,21 @@
+html,body{
+  font-family: system-ui;
+  color-scheme: dark;
+  background: linear-gradient(112.1deg, rgb(32, 38, 57) 11.4%, rgb(63, 76, 119) 70.2%);
+  color: snow;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+
 body {
-    background: #fafafa;
-    color: hwb(0 9% 56%);
+    background:dark;
     margin-top: 5rem;
+  
   }
   
   h1, h2, h3, h4, h5, h6 {
-    color: #444444;
+    color: snow;
   }
   
 
@@ -15,7 +25,7 @@ body {
   }
   
   .bg-steel {
-    background-color: #5f788a;
+    background-color: snow;
   }
   
   .site-header .navbar-nav .nav-link {
@@ -31,15 +41,14 @@ body {
   }
   
   .content-section {
-    background: #ffffff;
     padding: 10px 20px;
-    border: 1px solid #dddddd;
+    border: 2px solid hwb(172 10% 30%);
     border-radius: 30px;
     margin-bottom: 20px;
   }
   
   .article-title {
-    color: #444444;
+    color:snow;
   }
   
   a.article-title:hover {
@@ -62,11 +71,10 @@ body {
   .article-metadata {
     padding-bottom: 1px;
     margin-bottom: 4px;
-    border-bottom: 1px solid #e3e3e3
   }
   
   .article-metadata a:hover {
-    color: #333;
+    color: snow;
     text-decoration: none;
   }
   
@@ -92,7 +100,10 @@ body {
   }
 
 
-  @font-face {
-    font-family: 'Dancing Script', cursive;
-    src: url("https://fonts.googleapis.com/css2?family=Dancing+Script&family=Tilt+Prism&display=swap");
+a{
+  color: #ff1717;
+}
+
+.date{
+  color:#3df2f2;
 }

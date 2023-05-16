@@ -15,10 +15,10 @@
             </div>
             {% endif %}
           </div>
-          <h2 class="article-title">{{ object.title }}</h2>   
+          <h2 class="article-title text-center">{{ object.title }}</h2>   
           {% if object.img_post %}      
-          <img class="img-rounded" src="{{ object.img_post.url }}" alt="{{ post.title }}">{% endif %}
-          <p class="article-content">{{ object.content }}</p>
+          <img class="d-flex w-100" src="{{ object.img_post.url }}" alt="{{ post.title }}">{% endif %}
+          <p class="article-content lead mt-2">{{ object.content }}</p>
         </div>
       </article>
  

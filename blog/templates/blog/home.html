@@ -2,38 +2,34 @@
 {% load static %}
 
 {% block content %}
-{% for post in posts %}
+<!-- {% for post in posts %} -->
 <div id="my-data-container">
-
   <article class="media content-section">
     <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
-    <div class="media-body">
+    <!-- <div class="media-body"> -->
       <div class="article-metadata">
-        <div class="thumbnail">
-          <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
-          <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+        <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+        <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
 
-          <h2 id='author' class="display-5"><a class="article-title" href="{{ post.get_absolute_url }}">{{ post.title
-              }}</a></h2>
+        <h2 id='author' class="display-5"><a class="article-title" href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
 
-          {% if post.img_post %}
+        {% if post.img_post %}
 
-          <img class="img-thumbnail d-flex" src="{{ post.img_post.url }}" alt="{{ post.title }}">
-          {% endif %}
-          <div class="caption">
-            <p class="text-muted">{{ post.content }}</p>
-          </div>
-
+        <img class="d-flex mr-sm-3" src="{{ post.img_post.url }}" alt="{{ post.title }}">
+        {% endif %}
+        <div class="caption">
+          <p class="text-muted">{{ post.content }}</p>
         </div>
+
       </div>
     </div>
   </article>
 </div>
-{% endfor %}
+<!-- {% endfor %} -->
 {% if is_paginated %}
 {% if page_obj.has_previous %}
-<a class="btn btn-outline-info mb-4" href="?page=1">First</a>
-<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+<a class="btn btn-outline-info mb-4" id="first" href="?page=1">First</a>
+<a class="btn btn-outline-info mb-4" id="previous" href="?page={{ page_obj.previous_page_number }}">Previous</a>
 {% endif %}
 
 {% for num in page_obj.paginator.page_range %}
@@ -46,11 +42,13 @@
   {% endfor %}
 
   {% if page_obj.has_next %}
-  <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-  <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+  <a id='previous' class="btn btn-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+  <a id ='last' class="btn btn-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
   {% endif %}
 
   {% endif %}
+
+
 
 
   <script src="{% static 'js/home.js' %}"></script>

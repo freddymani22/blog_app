@@ -14,18 +14,14 @@ from .models import Comment
 
 
 
-def home(request):
-    context = {
-        'posts' : Post.objects.all()
-    }
-    return render(request, 'blog/home.html', context)
+
 
 
 
 
 class PostListView(LoginRequiredMixin,ListView):
     model = Post
-    template_name = 'blog/home.html'
+    template_name = 'blog/home1.html'
     context_object_name = 'posts'
     ordering = ['-date_posted']
     paginate_by = 5
@@ -44,7 +40,6 @@ class UserPostListView(LoginRequiredMixin,ListView):
         # return Post.objects.filter(author = user).order_by('-date_posted')
         
 
-        
 
 
 class PostDetailView(LoginRequiredMixin,DetailView):
@@ -52,29 +47,7 @@ class PostDetailView(LoginRequiredMixin,DetailView):
     form = CommentForm
     slug_field = 'slugs'
     slug_url_kwarg = 'slugs'
-
-
-
-    def get(self, request, *args, **kwargs):
-        context ={}
-        self.object = self.get_object()
-        context = self.get_context_data(object=self.object)
-        context['form'] = CommentForm()
-        context['comments'] = Comment.objects.filter(post=self.object)
-        return self.render_to_response(context)
-    
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = CommentForm(request.POST)
-        
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.post = self.object
-            comment.user = request.user
-            comment.save()
-            # return redirect('post-detail', slugs= self.object.slugs)
-            return redirect(self.object.get_absolute_url())
+    template_name = 'blog/post_detail1.html'
 
 
 
@@ -91,7 +64,7 @@ class PostCreateView(LoginRequiredMixin,CreateView):
 
 class PostUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['title', 'content', 'image']
+    fields = ['title', 'content', 'img_post']
   
     def form_valid(self, form):
         form.instance.author = self.request.user

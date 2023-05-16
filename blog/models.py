@@ -32,12 +32,12 @@ class Post(models.Model):
 
         if self.img_post:
 
-            img = Image.open(self.image.path)
+            img= Image.open(self.img_post.path)
 
         
             output_size = (500,500)
             img.thumbnail(output_size)
-            img.save(self.image.path)
+            img.save(self.img_post.path)
 
     
 
