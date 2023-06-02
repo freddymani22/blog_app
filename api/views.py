@@ -1,6 +1,5 @@
 from rest_framework import generics
 from rest_framework import permissions,authentication
-from rest_framework.response import Response
 
 # Create your views here.
 
@@ -13,11 +12,13 @@ class PostListCreateView(generics.ListCreateAPIView):
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticated]
     
-    
+    def perform_create(self, serializer):
+        author = self.request.user
+        serializer.save(author=author)
 
 
 
-class PostDetailView(generics.RetrieveAPIView):
+class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     lookup_field = 'slugs'

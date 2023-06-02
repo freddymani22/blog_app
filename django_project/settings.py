@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'PIL',
     'rest_framework',
     'rest_framework.authtoken',
+    'search'
 ]
 
 MIDDLEWARE = [
@@ -158,3 +159,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 5
 }
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'

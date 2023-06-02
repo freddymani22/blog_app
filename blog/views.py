@@ -65,6 +65,8 @@ class PostCreateView(LoginRequiredMixin,CreateView):
 class PostUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     model = Post
     fields = ['title', 'content', 'img_post']
+    slug_field = 'slugs'
+    slug_url_kwarg = 'slugs'
   
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -78,7 +80,8 @@ class PostUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
-    
+    slug_field = 'slugs'
+    slug_url_kwarg = 'slugs'
 
     def test_func(self):
         post = self.get_object()

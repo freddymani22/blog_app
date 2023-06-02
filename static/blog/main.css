@@ -5,6 +5,7 @@ html,body{
   color: snow;
   background-repeat: no-repeat;
   background-attachment: fixed;
+  scroll-behavior: smooth;
 }
 
 
@@ -107,3 +108,4 @@ a{
 .date{
   color:#3df2f2;
 }
+

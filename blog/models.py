@@ -6,17 +6,31 @@ from django.utils.text import slugify
 from django.db.models.signals import pre_save,post_save
 from django.conf import settings
 from PIL import Image
+from  django.db.models import Q
+
 
 User = settings.AUTH_USER_MODEL
+
+class PostQuerySet(models.QuerySet):
+    def search(self, query):
+        lookup = Q(title__icontains = query)|Q(content__icontains = query)
+        return self.filter(lookup)
+
+class PostManager(models.Manager):
+    def get_queryset(self, *args, **kwargs):
+        return PostQuerySet(self.model, using =self._db)
+
+    def search(self, query):
+        return self.get_queryset().search(query)
 
 class Post(models.Model):
     title = models.CharField(max_length = 100)
     content = models.TextField()
     slugs = models.SlugField(blank=True, null =True, unique=True)
-    date_posted = models.DateTimeField(default = timezone.now)
+    date_posted = models.DateTimeField(auto_now_add= True)
     author = models.ForeignKey(User, on_delete = models.CASCADE)
     img_post = models.ImageField(upload_to='post_images/', null=True, blank=True)
-
+    objects = PostManager()
 
     def __str__(self):
         return self.title

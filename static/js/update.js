@@ -138,7 +138,6 @@ commentForm.addEventListener('submit', (e) => {
       }
 
     })
-    fetchData()
 })
 
 const deletePost = document.querySelector('#post-delete')
@@ -156,7 +155,6 @@ const postDelete = async () => {
   const deleteSlug = localStorage.getItem('article-title')
   try {
     await axios.delete(`http://localhost:8000/api/${deleteSlug}/`,{ headers: { 'X-CSRFToken': csrfToken } })
-    
   } catch (e) {
     console.log(e)
   }

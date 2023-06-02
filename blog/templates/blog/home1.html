@@ -1,36 +1,20 @@
 {% extends "blog/base.html" %}
 {% load static %}
-
+{% block search %} <form class="form d-md-flex justify-content-center mb-0">
+  <input class="search-query form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+  <button class="search-button btn btn-outline-success my-2" type="submit">Search</button>
+</form>{% endblock search %}
 {% block content %}
 <div id="my-data-container">
-  <article class="media content-section">
-    <img class="rounded-circle article-img" src="">
-    <div class="media-body">
-      <div class="article-metadata">
-        <a class="mr-2" href=""></a>
-        <small class="text-muted"></small>
-
-        <h2 id='author' class="display-5"><a class="article-title" href=""></a></h2>
-
-        {% if post.img_post %}
-
-        <img class="d-flex mr-sm-3" src="" alt="">
-        {% endif %}
-        <div class="caption">
-          <p class="text-muted"></p>
-        </div>
-
-      </div>
-    </div>
-  </article>
+  
 </div>
 
 
-<button id ='previous' class="btn btn-info mb-4" href="">Previous</button>
+<button id='previous' class="btn btn-info mb-4" href="">Previous</button>
 <button id='next' class="btn btn-info mb-4" href="">Next</button>
 
 
 
 
-  <script src="{% static 'js/home.js' %}"></script>
-  {% endblock content %}
+<script src="{% static 'js/home.js' %}"></script>
+{% endblock content %}

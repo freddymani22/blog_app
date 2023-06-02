@@ -2,6 +2,12 @@
 {% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
+{% if object.author.id == user.id %}
+<div class="text-right">
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.slugs %}">Update</a>
+  <button id="post-delete" class = "btn btn-danger btn-sm mt-1 mb-1">Delete</button>
+</div>
+{% endif %}
 <div class="detail-container">
     <article class="media content-section">
         <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}" alt="">
@@ -9,14 +15,8 @@
             <div class="article-metadata">
                 <a class="mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
                 <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
-                {% if object.author.id == user.id %}
-                <div>
-                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
-                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
-                </div>
-                {% endif %}
             </div>
-            <h2 class="article-title text-center">{{ object.title }}</h2>
+            <h2 class="article-title">{{ object.title }}</h2>
             {% if object.img_post %}
             <img class="d-flex w-100" src="{{ object.img_post.url }}" alt="{{ post.title }}">{% endif %}
             <p class="article-content lead mt-2">{{ object.content }}</p>
@@ -53,6 +53,6 @@
 </div>
 </form>
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 <script src='{% static "js/detail.js" %}'></script>
 {% endblock content %}
